@@ -35,6 +35,7 @@ class SemiDataset(Dataset):
                 self.labeled_ids = f.read().splitlines()
             with open(unlabeled_id_path, 'r') as f:
                 self.unlabeled_ids = f.read().splitlines()
+            # ids = 2*whole_data-2*labeled_data
             self.ids = \
                 self.labeled_ids * math.ceil(len(self.unlabeled_ids) / len(self.labeled_ids)) + self.unlabeled_ids
 

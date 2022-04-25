@@ -249,6 +249,8 @@ def train(model, trainloader, valloader, criterion, optimizer, args):
 
             best_model = deepcopy(model)
 
+        # cityscapes: epoch = 240
+        # save checkpoints on epoch = 80, 160, 240
         if MODE == 'train' and ((epoch + 1) in [args.epochs // 3, args.epochs * 2 // 3, args.epochs]):
             checkpoints.append(deepcopy(model))
 
