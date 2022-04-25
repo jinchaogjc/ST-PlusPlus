@@ -86,3 +86,28 @@ class SemiDataset(Dataset):
 
     def __len__(self):
         return len(self.ids)
+
+
+if __name__ == '__main__':
+    dataset = "cityscapes"
+    data_root = "../data/cityscapes/"
+    MODE = "train"
+    crop_size = "721"
+    semi_setting ='/cityscapes/1_8/split_0'
+    labeled_id_path = "../dataset/splits/" + semi_setting + "/labeled.txt"
+    trainset = SemiDataset(dataset, data_root, MODE, crop_size, labeled_id_path)
+
+    # print(trainset.ids)
+    trainset.ids = 2 * trainset.ids if len(trainset.ids) < 200 else trainset.ids
+    # print(trainset.ids)
+    from torch.utils.data import DataLoader
+    batch_size = 16
+    trainloader = DataLoader(trainset, batch_size=batch_size, shuffle=True,
+                             pin_memory=True, num_workers=16, drop_last=True)
+
+    from tqdm import tqdm
+    tbar = tqdm(trainloader)
+    #
+    for i, (img, mask) in enumerate(tbar):
+        img, mask = img.cuda(), mask.cuda()
+        pass
