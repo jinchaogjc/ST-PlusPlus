@@ -92,7 +92,7 @@ if __name__ == '__main__':
     dataset = "cityscapes"
     data_root = "../data/cityscapes/"
     MODE = "train"
-    crop_size = "721"
+    crop_size = 721
     semi_setting ='/cityscapes/1_8/split_0'
     labeled_id_path = "../dataset/splits/" + semi_setting + "/labeled.txt"
     trainset = SemiDataset(dataset, data_root, MODE, crop_size, labeled_id_path)
@@ -108,6 +108,26 @@ if __name__ == '__main__':
     from tqdm import tqdm
     tbar = tqdm(trainloader)
     #
+    import matplotlib.pyplot as plt
+    import matplotlib.image as mpimg
+    # img_path = "/home/jc/Documents/tmp/bremen_000000_000019_gtFine_color.png"
+    # img = mpimg.imread(img_path)
+    # print(img.shape)
+    # plt.imshow(img)
+    # plt.show()
+    # input()
+    import numpy as np
     for i, (img, mask) in enumerate(tbar):
         img, mask = img.cuda(), mask.cuda()
+        print(img.shape)
+        # image = img[0].permute(1,2,0).tolist()
+        img1 = img[0].cpu().detach().numpy() + 0.5
+        img2 = img[0].cpu().numpy() + 0.5
+        # plt.imshow(np.transpose(img[0].cpu().detach().numpy(), (1, 2, 0)))
+        plt.imshow(np.transpose(img1, (1, 2, 0)))
+        plt.imshow(np.transpose(img2, (1, 2, 0)))
+        plt.show()
+        input()
+        print(mask.shape)
+        plt.imshow(img[0].tolist())
         pass
